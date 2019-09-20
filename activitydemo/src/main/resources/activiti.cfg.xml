@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--    <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">-->
+<!--         -->
+<!--         <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/druid?serverTimezone=GMT%2B8&amp;characterEncoding=utf-8&amp;useSSL=false" />-->
+<!--         <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver" />-->
+<!--         <property name="jdbcUsername" value="root" />-->
+<!--         <property name="jdbcPassword" value="root" />-->
+<!--         -->
+<!--         <property name="databaseSchemaUpdate" value="true" />-->
+<!--    </bean>-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/druid?serverTimezone=GMT%2B8&amp;characterEncoding=utf-8&amp;useSSL=false&amp;nullCatalogMeansCurrent=true" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+        <property name="defaultAutoCommit" value="false" />
+    </bean>
+
+    <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+
+        <property name="dataSource" ref="dataSource" />
+        <property name="databaseSchemaUpdate" value="true" />
+    </bean>
+
+</beans>
