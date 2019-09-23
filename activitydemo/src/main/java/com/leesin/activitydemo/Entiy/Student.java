@@ -7,54 +7,35 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "leesin_student", schema = "druid")
 @EntityListeners(AuditingEntityListener.class)
-public class Student implements Serializable {
+public class Student {
     private long id;
     private String name;
     private String sex;
     private Integer age;
     private String address;
-    /**
-     * 创建时间
-     */
+
+    //    创建时间
     @CreatedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "create_time")
-    private Date createTime;
+    private Timestamp createTime;
 
-    /**
-     * 修改时间
-     */
+    //    修改时间
     @LastModifiedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "modify_time")
-    private Date modifyTime;
+    private Timestamp modifyTime;
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
+    private String role;
+    private String permission;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     public long getId() {
         return id;
@@ -104,29 +85,64 @@ public class Student implements Serializable {
         this.address = address;
     }
 
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "modify_time")
+    public Timestamp getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Timestamp modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    @Basic
+    @Column(name = "role")
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Basic
+    @Column(name = "permission")
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Student that = (Student) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
-        if (age != null ? !age.equals(that.age) : that.age != null) return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-
-        return true;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(sex, that.sex) &&
+                Objects.equals(age, that.age) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(modifyTime, that.modifyTime) &&
+                Objects.equals(role, that.role) &&
+                Objects.equals(permission, that.permission);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, sex, age, address, createTime, modifyTime, role, permission);
     }
 }

@@ -2,8 +2,7 @@ package com.leesin.activitydemo.web;
 
 import com.leesin.activitydemo.Api.StudentService;
 import com.leesin.activitydemo.Entiy.Student;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.ValueOperations;
@@ -25,8 +24,8 @@ public class StudentAction {
     @ResponseBody
     public String add()
     {
-        String result = null;
-        Date date = new Date();
+        String result;
+//        Date date = new Date();
         Student student = new Student();
         student.setName("张三");
         student.setAddress("北京");
@@ -49,11 +48,11 @@ public class StudentAction {
         return student;
     }
 
-    @RequestMapping("/getRedis")
+    //查询所有学生
+    @RequestMapping("/findAll")
     @ResponseBody
-    public List<Student> getRedis(){
-        List<Student> students = studentService.findAll();
-        return students;
+    public List<Student> findAll(){
+        return studentService.findAll();
     }
 
     @RequestMapping("/uid")
@@ -63,7 +62,7 @@ public class StudentAction {
         if (uid == null) {
             uid = UUID.randomUUID();
         }
-//        session.setAttribute("uid", uid);
+        session.setAttribute("uid", uid);
         return session.getId();
     }
 
