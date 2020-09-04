@@ -41,10 +41,10 @@ public class ActivitydemoApplicationTests {
     }
     @Test
     public void getHello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/demo").accept(MediaType.APPLICATION_JSON))
+        String res =  mvc.perform(MockMvcRequestBuilders.get("/demo").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .andReturn().getResponse().getContentAsString();
     }
 
     @Test
