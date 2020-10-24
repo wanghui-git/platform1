@@ -57,7 +57,7 @@ public class JunitTest {
         String c= ReadFile.getString("DemoDate");
         String d= null;
         try {
-            b = new String(a.getBytes("ISO-8859-1"), "GBK");
+            b = new String(a.getBytes("ISO-8859-1"), "utf-8");
             d = new String(c.getBytes("ISO-8859-1"), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
